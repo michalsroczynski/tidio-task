@@ -53,6 +53,7 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^7",
         "symfony/dotenv": "^7",
+        "symfony/maker-bundle": "^1.65",
         "symfony/phpunit-bridge": "^7"
     }
 }
