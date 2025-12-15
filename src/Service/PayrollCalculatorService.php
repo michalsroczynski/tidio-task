@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Config\BonusType;
-use App\Entity\BonusConfig;
 use App\Entity\Employee;
 use App\Repository\BonusConfigRepository;
 
@@ -40,22 +39,6 @@ class PayrollCalculatorService
                 (float)$bonusConfig->getBonusValue(),
                 $yearsActive
             );
-//
-//        // Fixed bonus
-//        if ($bonusConfig->isFixed()) {
-//            $bonusAmount = (float)$bonusConfig->getBonusValue() * $yearsActive;
-//            $bonusAmount = (float)number_format($bonusAmount, 2, '.', '');
-//
-//            return $this->getBonusData($bonusAmount, BonusType::Fixed->value);
-//        }
-//
-//        // Percentage bonus
-//        $baseSalary = (float)$employee->getBaseSalary();
-//        $percentagePerYear = (float)$bonusConfig->getBonusValue();
-//        $bonusAmount = $baseSalary * ($percentagePerYear / 100) * $yearsActive;
-//        $bonusAmount = (float)number_format($bonusAmount, 2, '.', '');
-//
-//        return $this->getBonusData($bonusAmount, BonusType::Percentage->value);
     }
 
     public function calculateTotalSalary(Employee $employee): float

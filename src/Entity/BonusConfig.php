@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Config\BonusType;
 use App\Repository\BonusConfigRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: BonusConfigRepository::class)]
 #[ORM\Table(name: 'bonus_config')]
@@ -19,7 +21,7 @@ class BonusConfig
     #[ORM\JoinColumn(nullable: false)]
     private ?Department $department = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $bonusType = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -52,6 +54,9 @@ class BonusConfig
 
     public function setBonusType(string $bonusType): static
     {
+        if (!in_array($bonusType, [BonusType::Fixed->value, BonusType::Percentage->value], true)) {
+            throw new InvalidArgumentException('Bonus type must be FIXED or PERCENTAGE');
+        }
         $this->bonusType = $bonusType;
 
         return $this;
@@ -79,5 +84,15 @@ class BonusConfig
         $this->maxYears = $maxYears;
 
         return $this;
+    }
+
+    public function isFixed(): bool
+    {
+        return $this->bonusType === BonusType::Fixed->value;
+    }
+
+    public function isPercentage(): bool
+    {
+        return $this->bonusType === BonusType::Percentage->value;
     }
 }
